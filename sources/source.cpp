@@ -31,16 +31,24 @@ std::vector<std::string> links;
 std::deque<std::string> parse_queue;
 std::deque<std::string> file_queue;
 std::recursive_mutex download_mutex;
+std::recursive_mutex parser_mutex;
 std::recursive_mutex file_filling_mutex;
 std::condition_variable_any cv;
 std::condition_variable cv_write;
-unsigned count_ref = 0;
+int count_ref = 0;
 unsigned count_pages = 0;
-bool flag = false;
-bool flag_write = false;
+unsigned first_links_lenght = 0;
+std::vector<int> checks;
+bool done = false;
+bool notified = false;
 bool find_picture (std::string href);
 
 void download(std::string host, std::string target) {
+//    if ((links.size()!=0) && (iter == links.size())) { flag = false; return;}
+    std::unique_lock<std::recursive_mutex> lk(download_mutex);
+    std::cout << "I am into downloading" << std::endl;
+    std::cout << host <<std::endl;
+    std::cout << target << std::endl;
     net::io_context ioc;
     ssl::context ctx{ssl::context::sslv23_client};
     load_root_certificates(ctx);
@@ -51,7 +59,7 @@ void download(std::string host, std::string target) {
     net::connect(stream.next_layer(), results.begin(), results.end());
     stream.handshake(ssl::stream_base::client);
     http::request<http::string_body> req(http::verb::get, target, 11);
-    std::lock_guard<std::recursive_mutex> lk(download_mutex);
+    //std::lock_guard<std::recursive_mutex> lk(download_mutex);
     req.set(http::field::host, host);
     req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
     req.set(http::field::accept, "text/html");
@@ -63,8 +71,14 @@ void download(std::string host, std::string target) {
     std::string msg = res.body();
     beast::error_code ec;
     stream.shutdown(ec);
+    //download_mutex.lock();
     parse_queue.push_front(msg);
-    count_ref--;
+    notified = true;
+    cv.notify_one();
+//    flag = true;
+   // download_mutex.unlock();
+    count_ref --;
+   std::cout << "download: " << count_ref <<  std::endl;
 }
 
 
@@ -72,14 +86,28 @@ std::string convert_url_host(std::string);
 std::string convert_url_target(std::string);
 static void search_for_picture_links(GumboNode* node, unsigned depth);
 void parse_thread_work( unsigned depth ) {
-	//std::unique_lock<std::recursive_mutex> lk(download_mutex);
-        std::lock_guard <std::recursive_mutex> lk(download_mutex);
-	if (parse_queue.size() == 0) return;
+        std::unique_lock<std::recursive_mutex> lk(download_mutex);
+	std::cout << "I am into parsing" << std::endl;
+        while (!notified) {
+        cv.wait(lk);
+	std::cout << "I am waiting sv" << std::endl;
+        }
+        while (parse_queue.empty()) { 
+	std::cout << "A queue is empty" << std::endl; 
+	//parse_thread_work(depth);
+	return;
+	}
+        if (parse_queue.front() != "") {
 	GumboOutput* output = gumbo_parse(parse_queue.front().c_str());
+	std::lock_guard<std::recursive_mutex> lock(file_filling_mutex);
 	search_for_picture_links(output->root, depth);
 	gumbo_destroy_output(&kGumboDefaultOptions, output);
+        }
 	parse_queue.pop_front();
+	std::cout << count_ref << std::endl;
         count_pages--;
+        //notified = false;
+	std::cout << "I am living parsing" << std::endl;
 }
 
 static void search_for_links(GumboNode* node) {
@@ -112,11 +140,9 @@ static void search_for_picture_links(GumboNode* node, unsigned depth) {
   GumboAttribute* src;
   if (node->v.element.tag == GUMBO_TAG_IMG &&
       (src = gumbo_get_attribute(&node->v.element.attributes, "src"))) {
-	   std::cout << src->value << std::endl;
-	   std::cout << depth << std::endl << std::endl;
-	   std::lock_guard<std::recursive_mutex> lock(file_filling_mutex);
-	   flag_write = true;
+	   //std::lock_guard<std::recursive_mutex> lock(file_filling_mutex);
            file_queue.push_front(src->value);
+	   std::cout << "picture!!!" << src->value <<std::endl;
   }
   GumboVector* children = &node->v.element.children;
   depth++;
@@ -126,7 +152,7 @@ static void search_for_picture_links(GumboNode* node, unsigned depth) {
 }
 
 std::string convert_url_host (std::string url) {
-	if (url.size() < 4) throw std::runtime_error{"invalid host"};
+	//if (url.size() < 4) throw std::runtime_error{"invalid host"};
 	std::string slash = "";
 	slash = slash+ '/'+'/';
 	std::size_t pos = url.find(slash);
@@ -145,7 +171,7 @@ std::string convert_url_host (std::string url) {
 }
 
 std::string convert_url_target (std::string url) {
-if (url.size() < 4) throw std::runtime_error{"invalid target"};
+//if (url.size() < 4) throw std::runtime_error{"invalid target"};
        std::string slash = "";
 	slash = slash + '/'+'/';
 	std::size_t pos = url.find(slash);
@@ -177,28 +203,43 @@ try {
         out.open("output.txt");
 	ThreadPool pool_downloader(4);
 	ThreadPool pool_parser(4);
-	download("en.wikipedia.org", "/wiki/Elephante");
+//	pool_parser.enqueue(&parse_thread_work, 0);
+	download("github.com", "/Avsyankaa/Tests");
 	GumboOutput* output = gumbo_parse(parse_queue.front().c_str());
+        parse_queue.pop_front();
+	notified = false;
 	search_for_links(output->root);
         gumbo_destroy_output(&kGumboDefaultOptions, output);
-        count_pages = count_ref = links.size();
-	for (unsigned i = 0; i < links.size() ; i++) {
+	for (unsigned z = 0; z < links.size(); z++){
+	for (unsigned i = 0; i < links.size(); i++){
+	if (links[i].find("https:") != 0) {
+	std::swap(links[i], links[links.size()-1]);
+	links.pop_back();
+	}
+	}
+	}
+	for (unsigned i = 0; i < links.size(); i++)
+         std::cout << links[i] << std::endl;
+        count_pages = count_ref = first_links_lenght = links.size();
+	for (unsigned i = 0; i < links.size(); i++) {
 	pool_downloader.enqueue(&download, convert_url_host(links[i]),
         convert_url_target(links[i]));
-        if (count_ref != 0) pool_parser.enqueue(&parse_thread_work, 0);
+	pool_parser.enqueue(&parse_thread_work, 0);
 	}
-	while (count_ref != 0)  {
-	 pool_parser.enqueue(&parse_thread_work, 0);
-         if (count_pages != 0) {
-		make_writing(out);
-	}
-        std::cout << "count_ref=" << count_ref << std::endl;
-	std::cout << "count_pages=" << count_pages << std::endl;
-      }
-        while (count_pages != 0) {
-		make_writing(out);
-	 	std::cout << count_pages << std::endl;
-        }
+	//for (unsigned i = 0; i < links.size(); i++) {
+	//pool_downloader.enqueue(&download, convert_url_host(links[i]),
+	//convert_url_target(links[i]));  }
+      //  std::this_thread::sleep_for(2s);
+        //pool_parser.enqueue(&parse_thread_work, 0);
+	//pool_parser.enqueue(&parse_thread_work, 0);
+        //std::cout << "flag=" << flag << std::endl;
+	//while (flag) {
+        //pool_parser.enqueue(&parse_thread_work, 0);
+        //download_mutex.lock();
+        //if (count_ref < 0) flag = false;
+        //download_mutex.unlock();
+         //}
+	//std::cout << "here" << std::endl;
      }
 
 catch (std::exception& e) {
