@@ -80,9 +80,13 @@ tests_EXTERNAL_OBJECTS =
 tests: CMakeFiles/tests.dir/sources/source.cpp.o
 tests: CMakeFiles/tests.dir/build.make
 tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libgtest_maind.a
+tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libssl.a
+tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libcrypto.a
 tests: libkraulerd.a
 tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libgtestd.a
 tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_system-mt-d.a
+tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libssl.a
+tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libcrypto.a
 tests: CMakeFiles/tests.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/vagrant/Projects/lab-09-producer-consumer/_builds/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable tests"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tests.dir/link.txt --verbose=$(VERBOSE)

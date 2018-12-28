@@ -23,6 +23,7 @@ string(APPEND CMAKE_CXX_FLAGS " -pedantic -Werror -Wall -Wextra")
 string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
 string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
+# add_definitions(-DBOOST_ASIO_SEPARATE_COMPILATION=1)
 hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
 
@@ -31,6 +32,9 @@ find_package(Boost CONFIG REQUIRED)
 
 hunter_add_package(Beast)
 find_package(Beast CONFIG REQUIRED)
+
+hunter_add_package(OpenSSL)
+find_package(OpenSSL REQUIRED)
 
 add_library(krauler STATIC
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
@@ -60,8 +64,8 @@ target_include_directories(tests
  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/third-party/gumbo-parser/src
  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ThreadPool
 )
-target_link_libraries(tests GTest::main Boost::boost Beast::Beast krauler)
-target_link_libraries(krauler Boost::boost Beast::Beast)
+target_link_libraries(tests GTest::main Boost::boost Beast::Beast OpenSSL::SSL OpenSSL::Crypto krauler)
+target_link_libraries(krauler Boost::boost Beast::Beast OpenSSL::SSL OpenSSL::Crypto)
 enable_testing()
 add_test(NAME unit_tests COMMAND tests) 
 

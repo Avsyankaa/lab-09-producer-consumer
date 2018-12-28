@@ -258,6 +258,15 @@ HUNTER_STATUS_PRINT:BOOL=ON
 //Enable/disable TLS certificate checking on downloads
 HUNTER_TLS_VERIFY:BOOL=ON
 
+//Path to a library.
+OPENSSL_CRYPTO_LIBRARY:FILEPATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libcrypto.a
+
+//Path to a file.
+OPENSSL_INCLUDE_DIR:PATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/include
+
+//Path to a library.
+OPENSSL_SSL_LIBRARY:FILEPATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libssl.a
+
 //Print all process messages
 POLLY_STATUS_DEBUG:BOOL=OFF
 
@@ -266,6 +275,9 @@ POLLY_STATUS_PRINT:BOOL=ON
 
 //Value Computed by CMake
 krauler_BINARY_DIR:STATIC=/home/vagrant/Projects/lab-09-producer-consumer/_builds
+
+//Dependencies for the target
+krauler_LIB_DEPENDS:STATIC=general;OpenSSL::SSL;general;OpenSSL::Crypto;
 
 //Value Computed by CMake
 krauler_SOURCE_DIR:STATIC=/home/vagrant/Projects/lab-09-producer-consumer
@@ -433,6 +445,8 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding OpenSSL
+FIND_PACKAGE_MESSAGE_DETAILS_OpenSSL:INTERNAL=[/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libssl.a;/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libcrypto.a;dl][/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/include][v1.1.1()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 HUNTER_CACHED_BUILD_SHARED_LIBS:INTERNAL=
@@ -443,6 +457,12 @@ HUNTER_SHA1:INTERNAL=70287b1ffa810ee4e952052a9adff9b4856d0d54
 HUNTER_TOOLCHAIN_SHA1:INTERNAL=fc9dcb2e4e55b5304c7ae37237c6ebd4b72a28d0
 HUNTER_URL:INTERNAL=https://github.com/ruslo/hunter/archive/v0.23.34.tar.gz
 HUNTER_VERSION:INTERNAL=0.23.34
+//ADVANCED property for variable: OPENSSL_CRYPTO_LIBRARY
+OPENSSL_CRYPTO_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENSSL_INCLUDE_DIR
+OPENSSL_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENSSL_SSL_LIBRARY
+OPENSSL_SSL_LIBRARY-ADVANCED:INTERNAL=1
 //Last used BOOST_ROOT value.
 _BOOST_ROOT_LAST:INTERNAL=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install
 //Components requested for this build tree.
