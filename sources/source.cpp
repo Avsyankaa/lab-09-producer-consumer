@@ -20,6 +20,7 @@
 #include <boost/smart_ptr/make_shared_object.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/log/utility/setup/file.hpp>
+#include <boost/log/trivial.hpp>
 #include "sertificate.hpp"
 #include <stdexcept>
 #include <chrono>
