@@ -1,5 +1,0 @@
-/home/vagrant/Projects/lab-09-producer-consumer/_builds/CMakeFiles/rebuild_cache.dir
-/home/vagrant/Projects/lab-09-producer-consumer/_builds/CMakeFiles/edit_cache.dir
-/home/vagrant/Projects/lab-09-producer-consumer/_builds/CMakeFiles/test.dir
-/home/vagrant/Projects/lab-09-producer-consumer/_builds/CMakeFiles/krauler.dir
-/home/vagrant/Projects/lab-09-producer-consumer/_builds/CMakeFiles/tests.dir

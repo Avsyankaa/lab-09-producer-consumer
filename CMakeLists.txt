@@ -30,8 +30,8 @@ find_package(GTest CONFIG REQUIRED)
 hunter_add_package(Boost)
 find_package(Boost CONFIG REQUIRED)
 
-hunter_add_package(Boost COMPONENTS log thread filesystem system) 
-find_package(Boost CONFIG REQUIRED log thread filesystem system)
+hunter_add_package(Boost COMPONENTS log thread filesystem system program_options) 
+find_package(Boost CONFIG REQUIRED log thread filesystem system program_options)
 
 hunter_add_package(Beast)
 find_package(Beast CONFIG REQUIRED)
@@ -53,8 +53,15 @@ add_library(krauler STATIC
   ${CMAKE_CURRENT_SOURCE_DIR}/third-party/gumbo-parser/src/util.c
   ${CMAKE_CURRENT_SOURCE_DIR}/third-party/gumbo-parser/src/vector.c 
 )
+
 add_executable(tests
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
+)
+
+add_executable(main
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
 )
 
 target_include_directories(krauler 
@@ -67,8 +74,15 @@ target_include_directories(tests
  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/third-party/gumbo-parser/src
  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ThreadPool
 )
-target_link_libraries(tests GTest::main Boost::boost Boost::log Boost::thread Boost::filesystem Boost::system Beast::Beast OpenSSL::SSL OpenSSL::Crypto krauler)
-target_link_libraries(krauler Boost::boost Boost::log Boost::thread Boost::filesystem Boost::system Beast::Beast OpenSSL::SSL OpenSSL::Crypto)
+target_include_directories(main 
+ PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+ PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/third-party/gumbo-parser/src
+ PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ThreadPool
+)
+
+target_link_libraries(tests GTest::main Boost::boost Boost::log Boost::thread Boost::filesystem Boost::system Boost::program_options Beast::Beast OpenSSL::SSL OpenSSL::Crypto krauler)
+target_link_libraries(krauler Boost::boost Boost::log Boost::thread Boost::filesystem Boost::system Boost::program_options Beast::Beast OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(main GTest::main Boost::boost Boost::log Boost::thread Boost::filesystem Boost::system Boost::program_options Beast::Beast OpenSSL::SSL OpenSSL::Crypto krauler)
 enable_testing()
 add_test(NAME unit_tests COMMAND tests) 
 

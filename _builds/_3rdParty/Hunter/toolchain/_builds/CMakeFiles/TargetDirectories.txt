@@ -1,2 +1,0 @@
-/home/vagrant/Projects/lab-09-producer-consumer/_builds/_3rdParty/Hunter/toolchain/_builds/CMakeFiles/rebuild_cache.dir
-/home/vagrant/Projects/lab-09-producer-consumer/_builds/_3rdParty/Hunter/toolchain/_builds/CMakeFiles/edit_cache.dir
