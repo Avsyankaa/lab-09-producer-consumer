@@ -80,10 +80,17 @@ tests_EXTERNAL_OBJECTS =
 tests: CMakeFiles/tests.dir/sources/source.cpp.o
 tests: CMakeFiles/tests.dir/build.make
 tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libgtest_maind.a
+tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_log-mt-d.a
+tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_thread-mt-d.a
+tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_filesystem-mt-d.a
+tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_system-mt-d.a
 tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libssl.a
 tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libcrypto.a
 tests: libkraulerd.a
 tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libgtestd.a
+tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_log-mt-d.a
+tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_thread-mt-d.a
+tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_filesystem-mt-d.a
 tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_system-mt-d.a
 tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libssl.a
 tests: /root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libcrypto.a

@@ -12,6 +12,30 @@
 #include <boost/asio/ssl/error.hpp>
 #include <boost/asio/ssl/stream.hpp>
 #include <boost/asio/ssl.hpp>
+#include <boost/core/null_deleter.hpp>
+
+/*#include <boost/log/core.hpp>
+
+#include <boost/log/expressions.hpp>
+
+#include <boost/log/trivial.hpp>
+
+#include <boost/log/sinks/sync_frontend.hpp>
+
+#include <boost/log/sinks/text_file_backend.hpp>
+
+#include <boost/log/sinks/text_ostream_backend.hpp>
+
+#include <boost/log/sources/logger.hpp>
+
+#include <boost/log/sources/record_ostream.hpp>
+
+#include <boost/smart_ptr/make_shared_object.hpp>
+
+#include <boost/smart_ptr/shared_ptr.hpp>
+
+#include <boost/log/utility/setup/file.hpp>
+*/
 #include "sertificate.hpp"
 #include <stdexcept>
 #include <mutex>
@@ -20,13 +44,23 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <thread>
 using namespace std::chrono_literals;
 namespace beast = boost::beast;
 namespace http = beast::http;
 namespace net = boost::asio;
 namespace ssl = net::ssl;
 using tcp = net::ip::tcp;
+/*namespace logging = boost::log;
 
+namespace src = boost::log::sources;
+
+namespace sinks = boost::log::sinks;
+
+namespace keywords = boost::log::keywords;
+
+namespace expr = boost::log::expressions;
+*/
 std::vector<std::string> links;
 std::deque<std::string> parse_queue;
 std::deque<std::string> file_queue;
@@ -34,7 +68,7 @@ std::recursive_mutex download_mutex;
 std::recursive_mutex parser_mutex;
 std::recursive_mutex file_filling_mutex;
 std::condition_variable_any cv;
-std::condition_variable cv_write;
+std::condition_variable_any cv_write;
 int count_ref = 0;
 unsigned count_pages = 0;
 unsigned first_links_lenght = 0;
@@ -44,12 +78,9 @@ bool notified = false;
 bool find_picture (std::string href);
 
 void download(std::string host, std::string target) {
-//    if ((links.size()!=0) && (iter == links.size())) { flag = false; return;}
     std::unique_lock<std::recursive_mutex> lk(download_mutex);
-    std::cout << "I am into downloading" << std::endl;
-    std::cout << host <<std::endl;
-    std::cout << target << std::endl;
-    net::io_context ioc;
+    count_ref--;
+   try { net::io_context ioc;
     ssl::context ctx{ssl::context::sslv23_client};
     load_root_certificates(ctx);
     ctx.set_verify_mode(ssl::verify_peer);
@@ -59,7 +90,6 @@ void download(std::string host, std::string target) {
     net::connect(stream.next_layer(), results.begin(), results.end());
     stream.handshake(ssl::stream_base::client);
     http::request<http::string_body> req(http::verb::get, target, 11);
-    //std::lock_guard<std::recursive_mutex> lk(download_mutex);
     req.set(http::field::host, host);
     req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
     req.set(http::field::accept, "text/html");
@@ -71,14 +101,13 @@ void download(std::string host, std::string target) {
     std::string msg = res.body();
     beast::error_code ec;
     stream.shutdown(ec);
-    //download_mutex.lock();
     parse_queue.push_front(msg);
-    notified = true;
-    cv.notify_one();
-//    flag = true;
-   // download_mutex.unlock();
-    count_ref --;
-   std::cout << "download: " << count_ref <<  std::endl;
+   std::cout << "download: " << count_ref <<  std::endl; }
+catch (std::exception& e) {
+        e.what();
+        }
+	notified = true;
+	cv.notify_one();
 }
 
 
@@ -87,27 +116,26 @@ std::string convert_url_target(std::string);
 static void search_for_picture_links(GumboNode* node, unsigned depth);
 void parse_thread_work( unsigned depth ) {
         std::unique_lock<std::recursive_mutex> lk(download_mutex);
-	std::cout << "I am into parsing" << std::endl;
-        while (!notified) {
+	count_pages--;
+        while ((!notified) && (count_ref!=0)) {
         cv.wait(lk);
-	std::cout << "I am waiting sv" << std::endl;
         }
         while (parse_queue.empty()) { 
-	std::cout << "A queue is empty" << std::endl; 
-	//parse_thread_work(depth);
+        done = true;
+        notified = false;
+	cv_write.notify_one(); 
 	return;
 	}
         if (parse_queue.front() != "") {
 	GumboOutput* output = gumbo_parse(parse_queue.front().c_str());
-	std::lock_guard<std::recursive_mutex> lock(file_filling_mutex);
+	std::unique_lock<std::recursive_mutex> lock(file_filling_mutex);
 	search_for_picture_links(output->root, depth);
 	gumbo_destroy_output(&kGumboDefaultOptions, output);
         }
 	parse_queue.pop_front();
-	std::cout << count_ref << std::endl;
-        count_pages--;
-        //notified = false;
-	std::cout << "I am living parsing" << std::endl;
+        notified = false;
+	done = true;
+        cv_write.notify_one();
 }
 
 static void search_for_links(GumboNode* node) {
@@ -140,9 +168,7 @@ static void search_for_picture_links(GumboNode* node, unsigned depth) {
   GumboAttribute* src;
   if (node->v.element.tag == GUMBO_TAG_IMG &&
       (src = gumbo_get_attribute(&node->v.element.attributes, "src"))) {
-	   //std::lock_guard<std::recursive_mutex> lock(file_filling_mutex);
            file_queue.push_front(src->value);
-	   std::cout << "picture!!!" << src->value <<std::endl;
   }
   GumboVector* children = &node->v.element.children;
   depth++;
@@ -152,7 +178,6 @@ static void search_for_picture_links(GumboNode* node, unsigned depth) {
 }
 
 std::string convert_url_host (std::string url) {
-	//if (url.size() < 4) throw std::runtime_error{"invalid host"};
 	std::string slash = "";
 	slash = slash+ '/'+'/';
 	std::size_t pos = url.find(slash);
@@ -171,7 +196,6 @@ std::string convert_url_host (std::string url) {
 }
 
 std::string convert_url_target (std::string url) {
-//if (url.size() < 4) throw std::runtime_error{"invalid target"};
        std::string slash = "";
 	slash = slash + '/'+'/';
 	std::size_t pos = url.find(slash);
@@ -189,21 +213,41 @@ std::string convert_url_target (std::string url) {
 	return result_target;
 }
 
-void make_writing(std::ofstream& out) {
+/*void init()
+
+{
+    boost::shared_ptr< logging::core > core = logging::core::get();
+    boost::shared_ptr< sinks::text_file_backend > backend =
+        boost::make_shared< sinks::text_file_backend >(
+            keywords::file_name = "out_%5N.log",
+            keywords::rotation_size = 5 * 1024 * 1024,
+            keywords::format = "[%TimeStamp%]: %Message%",
+            keywords::time_based_rotation =
+            sinks::file::rotation_at_time_point(12, 0, 0));
+    typedef sinks::synchronous_sink< sinks::text_file_backend > sink_t;
+    boost::shared_ptr< sink_t > sink(new sink_t(backend));
+    core->add_sink(sink);
+
+}*/
+
+void make_writing() {
+std::unique_lock<std::recursive_mutex> lk(file_filling_mutex);
+while ((!done) && (count_pages != 0)) {
+	cv_write.wait(lk);
+}
+done = false;
 if (file_queue.size() == 0) return;
-std::lock_guard<std::recursive_mutex> lock(file_filling_mutex);
-out << file_queue.front() << std::endl;
+//BOOST_LOG_TRIVIAL(trace) << file_queue.front() << std::endl;
+std::cout << "[trace]" << file_queue.front() << std::endl;
 file_queue.pop_front();
 }
 
 
 int main() {
 try {
-        std::ofstream out;
-        out.open("output.txt");
 	ThreadPool pool_downloader(4);
 	ThreadPool pool_parser(4);
-//	pool_parser.enqueue(&parse_thread_work, 0);
+	ThreadPool pool_writer(1);
 	download("github.com", "/Avsyankaa/Tests");
 	GumboOutput* output = gumbo_parse(parse_queue.front().c_str());
         parse_queue.pop_front();
@@ -218,28 +262,14 @@ try {
 	}
 	}
 	}
-	for (unsigned i = 0; i < links.size(); i++)
-         std::cout << links[i] << std::endl;
-        count_pages = count_ref = first_links_lenght = links.size();
+	count_ref = count_pages = links.size();
 	for (unsigned i = 0; i < links.size(); i++) {
 	pool_downloader.enqueue(&download, convert_url_host(links[i]),
         convert_url_target(links[i]));
 	pool_parser.enqueue(&parse_thread_work, 0);
+	pool_writer.enqueue(&make_writing);
 	}
-	//for (unsigned i = 0; i < links.size(); i++) {
-	//pool_downloader.enqueue(&download, convert_url_host(links[i]),
-	//convert_url_target(links[i]));  }
-      //  std::this_thread::sleep_for(2s);
-        //pool_parser.enqueue(&parse_thread_work, 0);
-	//pool_parser.enqueue(&parse_thread_work, 0);
-        //std::cout << "flag=" << flag << std::endl;
-	//while (flag) {
-        //pool_parser.enqueue(&parse_thread_work, 0);
-        //download_mutex.lock();
-        //if (count_ref < 0) flag = false;
-        //download_mutex.unlock();
-         //}
-	//std::cout << "here" << std::endl;
+	return 0;
      }
 
 catch (std::exception& e) {

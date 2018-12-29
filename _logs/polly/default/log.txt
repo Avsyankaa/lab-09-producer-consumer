@@ -1,0 +1,274 @@
+Execute command: [
+  `which`
+  `cmake`
+]
+[/home/vagrant/Projects/lab-09-producer-consumer]> "which" "cmake"
+/usr/local/bin/cmake
+Execute command: [
+  `cmake`
+  `--version`
+]
+[/home/vagrant/Projects/lab-09-producer-consumer]> "cmake" "--version"
+cmake version 3.13.2
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+Execute command: [
+  `cmake`
+  `-H.`
+  `-B/home/vagrant/Projects/lab-09-producer-consumer/_builds/default`
+  `-DCMAKE_TOOLCHAIN_FILE=/home/vagrant/Projects/lab-09-producer-consumer/tools/polly/default.cmake`
+]
+[/home/vagrant/Projects/lab-09-producer-consumer]> "cmake" "-H." "-B/home/vagrant/Projects/lab-09-producer-consumer/_builds/default" "-DCMAKE_TOOLCHAIN_FILE=/home/vagrant/Projects/lab-09-producer-consumer/tools/polly/default.cmake"
+-- [polly] Used toolchain: Default
+-- The C compiler identification is GNU 7.3.0
+-- The CXX compiler identification is GNU 7.3.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- [hunter] Calculating Toolchain-SHA1
+-- [hunter] Calculating Config-SHA1
+-- [hunter] HUNTER_ROOT: /root/.hunter
+-- [hunter] [ Hunter-ID: 70287b1 | Toolchain-ID: 81d2ad6 | Config-ID: dffbc08 ]
+-- [hunter] GTEST_ROOT: /root/.hunter/_Base/70287b1/81d2ad6/dffbc08/Install (ver.: 1.8.0-hunter-p11)
+-- [hunter] BOOST_ROOT: /root/.hunter/_Base/70287b1/81d2ad6/dffbc08/Install (ver.: 1.68.0-p1)
+-- Boost version: 1.68.0
+-- [hunter] BOOST_ROOT: /root/.hunter/_Base/70287b1/81d2ad6/dffbc08/Install (ver.: 1.68.0-p1)
+-- [hunter] BOOST_ROOT: /root/.hunter/_Base/70287b1/81d2ad6/dffbc08/Install (ver.: 1.68.0-p1)
+-- [hunter] Building Boost (component: log)
+loading initial cache file /root/.hunter/_Base/70287b1/81d2ad6/dffbc08/cache.cmake
+loading initial cache file /root/.hunter/_Base/70287b1/81d2ad6/dffbc08/Build/Boost/__log/args.cmake
+-- [polly] Used toolchain: Default
+-- The C compiler identification is GNU 7.3.0
+-- The CXX compiler identification is GNU 7.3.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /root/.hunter/_Base/70287b1/81d2ad6/dffbc08/Build/Boost/__log/Build
+Scanning dependencies of target Boost-log
+[ 12%] Creating directories for 'Boost-log'
+[ 25%] Performing download step (download, verify and extract) for 'Boost-log'
+-- verifying file...
+       file='/root/.hunter/_Base/Download/Boost/1.68.0-p1/0bb10b0/v1.68.0-p1.tar.gz'
+-- File already exists and hash match (skip download):
+  file='/root/.hunter/_Base/Download/Boost/1.68.0-p1/0bb10b0/v1.68.0-p1.tar.gz'
+  SHA1='0bb10b0a0fdc196646c87e0143c0290baa32357d'
+-- extracting...
+     src='/root/.hunter/_Base/Download/Boost/1.68.0-p1/0bb10b0/v1.68.0-p1.tar.gz'
+     dst='/root/.hunter/_Base/70287b1/81d2ad6/dffbc08/Build/Boost/__log/Source'
+-- extracting... [tar xfz]
+-- extracting... [analysis]
+-- extracting... [rename]
+-- extracting... [clean up]
+-- extracting... done
+[ 37%] No patch step for 'Boost-log'
+[ 50%] Performing update step for 'Boost-log'
+[ 62%] Performing configure step for 'Boost-log'
+Dummy patch command
+Building Boost.Build engine with toolset gcc... tools/build/src/engine/bin.linuxx86_64/b2
+Detecting Python version... 2.7
+Detecting Python root... /usr
+Unicode/ICU support for Boost.Regex?... not found.
+Generating Boost.Build configuration in project-config.jam...
+
+Bootstrapping is done. To build, run:
+
+    ./b2
+
+To adjust configuration, edit 'project-config.jam'.
+Further information:
+
+   - Command line help:
+     ./b2 --help
+
+   - Getting started guide:
+     http://www.boost.org/more/getting_started/unix-variants.html
+
+   - Boost.Build documentation:
+     http://www.boost.org/build/doc/html/index.html
+
+[ 75%] Performing build step for 'Boost-log'
+Performing configuration checks
+
+    - default address-model    : 64-bit
+    - default architecture     : x86
+
+Building the Boost C++ Libraries.
+
+
+    - symlinks supported       : yes
+    - native-atomic-int32-supported : yes
+    - native-syslog-supported  : yes
+    - pthread-supports-robust-mutexes : yes
+    - compiler-supports-visibility : yes
+    - compiler-supports-ssse3  : yes
+    - compiler-supports-avx2   : yes
+    - has_icu builds           : no
+    - lockfree boost::atomic_flag : yes
+
+Component configuration:
+
+    - atomic                   : not building
+    - chrono                   : not building
+    - container                : not building
+    - context                  : not building
+    - contract                 : not building
+    - coroutine                : not building
+    - date_time                : not building
+    - exception                : not building
+    - fiber                    : not building
+    - filesystem               : not building
+    - graph                    : not building
+    - graph_parallel           : not building
+    - iostreams                : not building
+    - locale                   : not building
+    - log                      : building
+    - math                     : not building
+    - mpi                      : not building
+    - program_options          : not building
+    - python                   : not building
+    - random                   : not building
+    - regex                    : not building
+    - serialization            : not building
+    - signals                  : not building
+    - stacktrace               : not building
+    - system                   : not building
+    - test                     : not building
+    - thread                   : not building
+    - timer                    : not building
+    - type_erasure             : not building
+    - wave                     : not building
+
+...patience...
+...patience...
+...patience...
+...found 5391 targets...
+...updating 293 targets...
+gcc.compile.c++ bin.v2/libs/atomic/build/gcc-7.3.0/debug/link-static/threading-multi/lockpool.o
+gcc.archive bin.v2/libs/atomic/build/gcc-7.3.0/debug/link-static/threading-multi/libboost_atomic-mt-d.a
+common.copy stage/lib/libboost_atomic-mt-d.a
+gcc.compile.c++ bin.v2/libs/date_time/build/gcc-7.3.0/debug/link-static/threading-multi/gregorian/greg_weekday.o
+gcc.compile.c++ bin.v2/libs/date_time/build/gcc-7.3.0/debug/link-static/threading-multi/gregorian/date_generators.o
+gcc.compile.c++ bin.v2/libs/system/build/gcc-7.3.0/debug/link-static/threading-multi/error_code.o
+gcc.archive bin.v2/libs/system/build/gcc-7.3.0/debug/link-static/threading-multi/libboost_system-mt-d.a
+common.copy stage/lib/libboost_system-mt-d.a
+gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-7.3.0/debug/link-static/threading-multi/codecvt_error_category.o
+gcc.compile.c++ bin.v2/libs/date_time/build/gcc-7.3.0/debug/link-static/threading-multi/gregorian/greg_month.o
+gcc.archive bin.v2/libs/date_time/build/gcc-7.3.0/debug/link-static/threading-multi/libboost_date_time-mt-d.a
+common.copy stage/lib/libboost_date_time-mt-d.a
+gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-7.3.0/debug/link-static/threading-multi/path.o
+gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-7.3.0/debug/link-static/threading-multi/operations.o
+libs/filesystem/src/operations.cpp: In function ‘int {anonymous}::readdir_r_simulator(DIR*, dirent*, dirent**)’:
+libs/filesystem/src/operations.cpp:2126:18: warning: ‘int readdir_r(DIR*, dirent*, dirent**)’ is deprecated [-Wdeprecated-declarations]
+       { return ::readdir_r(dirp, entry, result); }
+                  ^~~~~~~~~
+In file included from /usr/include/features.h:424:0,
+                 from /usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h:39,
+                 from /usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h:533,
+                 from /usr/include/c++/7/cstddef:49,
+                 from ./boost/config/compiler/gcc.hpp:165,
+                 from ./boost/config.hpp:39,
+                 from ./boost/filesystem/operations.hpp:18,
+                 from libs/filesystem/src/operations.cpp:68:
+/usr/include/dirent.h:189:12: note: declared here
+ extern int __REDIRECT (readdir_r,
+            ^
+libs/filesystem/src/operations.cpp:2126:47: warning: ‘int readdir_r(DIR*, dirent*, dirent**)’ is deprecated [-Wdeprecated-declarations]
+       { return ::readdir_r(dirp, entry, result); }
+                                               ^
+In file included from /usr/include/features.h:424:0,
+                 from /usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h:39,
+                 from /usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h:533,
+                 from /usr/include/c++/7/cstddef:49,
+                 from ./boost/config/compiler/gcc.hpp:165,
+                 from ./boost/config.hpp:39,
+                 from ./boost/filesystem/operations.hpp:18,
+                 from libs/filesystem/src/operations.cpp:68:
+/usr/include/dirent.h:189:12: note: declared here
+ extern int __REDIRECT (readdir_r,
+            ^
+gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-7.3.0/debug/link-static/threading-multi/path_traits.o
+gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-7.3.0/debug/link-static/threading-multi/portability.o
+gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-7.3.0/debug/link-static/threading-multi/utf8_codecvt_facet.o
+gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-7.3.0/debug/link-static/threading-multi/windows_file_codecvt.o
+gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-7.3.0/debug/link-static/threading-multi/unique_path.o
+gcc.archive bin.v2/libs/filesystem/build/gcc-7.3.0/debug/link-static/threading-multi/libboost_filesystem-mt-d.a
+common.copy stage/lib/libboost_filesystem-mt-d.a
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/c_regex_traits.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/cpp_regex_traits.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/fileiter.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/icu.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/cregex.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/instances.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/posix_api.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/regex_debug.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/regex.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/regex_raw_buffer.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/static_mutex.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/w32_regex_traits.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/regex_traits_defaults.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/wc_regex_traits.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/wide_posix_api.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/usinstances.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/winstances.o
+gcc.archive bin.v2/libs/regex/build/gcc-7.3.0/debug/link-static/threading-multi/libboost_regex-mt-d.a
+common.copy stage/lib/libboost_regex-mt-d.a
+gcc.compile.c++ bin.v2/libs/thread/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/pthread/once.o
+gcc.compile.c++ bin.v2/libs/thread/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/future.o
+gcc.compile.c++ bin.v2/libs/chrono/build/gcc-7.3.0/debug/link-static/threading-multi/chrono.o
+gcc.compile.c++ bin.v2/libs/chrono/build/gcc-7.3.0/debug/link-static/threading-multi/thread_clock.o
+gcc.compile.c++ bin.v2/libs/thread/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/pthread/thread.o
+gcc.compile.c++ bin.v2/libs/chrono/build/gcc-7.3.0/debug/link-static/threading-multi/process_cpu_clocks.o
+gcc.archive bin.v2/libs/thread/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/libboost_thread-mt-d.a
+common.copy stage/lib/libboost_thread-mt-d.a
+gcc.archive bin.v2/libs/chrono/build/gcc-7.3.0/debug/link-static/threading-multi/libboost_chrono-mt-d.a
+common.copy stage/lib/libboost_chrono-mt-d.a
+link.mklink boost/chrono/stopwatches.hpp
+mklink-or-dir boost/chrono/stopwatches
+...on 100th target...
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/attribute_set.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/attribute_name.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/attribute_value_set.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/code_conversion.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/record_ostream.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/core.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/global_logger_storage.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/severity_level.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/named_scope.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/process_id.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/process_name.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/thread_id.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/timer.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/default_attribute_names.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/exceptions.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/text_ostream_backend.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/default_sink.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/text_multifile_backend.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/thread_specific.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/once_block.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/timestamp.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/threadsafe_queue.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/event.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/trivial.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/text_file_backend.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/spirit_encoding.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-7.3.0/debug/link-static/threadapi-pthread/threading-multi/format_parser.o
+c++: internal compiler error: Killed (program cc1plus)
+Please submit a full bug report,
+with preprocessed source if appropriate.
+See <file:///usr/share/doc/gcc-7/README.Bugs> for instructions.

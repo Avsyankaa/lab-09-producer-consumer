@@ -30,6 +30,9 @@ find_package(GTest CONFIG REQUIRED)
 hunter_add_package(Boost)
 find_package(Boost CONFIG REQUIRED)
 
+hunter_add_package(Boost COMPONENTS log thread filesystem system) 
+find_package(Boost CONFIG REQUIRED log thread filesystem system)
+
 hunter_add_package(Beast)
 find_package(Beast CONFIG REQUIRED)
 
@@ -64,8 +67,8 @@ target_include_directories(tests
  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/third-party/gumbo-parser/src
  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ThreadPool
 )
-target_link_libraries(tests GTest::main Boost::boost Beast::Beast OpenSSL::SSL OpenSSL::Crypto krauler)
-target_link_libraries(krauler Boost::boost Beast::Beast OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(tests GTest::main Boost::boost Boost::log Boost::thread Boost::filesystem Boost::system Beast::Beast OpenSSL::SSL OpenSSL::Crypto krauler)
+target_link_libraries(krauler Boost::boost Boost::log Boost::thread Boost::filesystem Boost::system Beast::Beast OpenSSL::SSL OpenSSL::Crypto)
 enable_testing()
 add_test(NAME unit_tests COMMAND tests) 
 

@@ -23,6 +23,12 @@ Beast_DIR:PATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/cmake/Bea
 //The directory containing a CMake configuration file for Boost.
 Boost_DIR:PATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/cmake/Boost
 
+//Boost filesystem library (debug)
+Boost_FILESYSTEM_LIBRARY_DEBUG:FILEPATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_filesystem-mt-d.a
+
+//Boost filesystem library (release)
+Boost_FILESYSTEM_LIBRARY_RELEASE:FILEPATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_filesystem-mt.a
+
 //Path to a file.
 Boost_INCLUDE_DIR:PATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/include
 
@@ -32,11 +38,23 @@ Boost_LIBRARY_DIR_DEBUG:PATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install
 //Boost library directory RELEASE
 Boost_LIBRARY_DIR_RELEASE:PATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib
 
+//Boost log library (debug)
+Boost_LOG_LIBRARY_DEBUG:FILEPATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_log-mt-d.a
+
+//Boost log library (release)
+Boost_LOG_LIBRARY_RELEASE:FILEPATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_log-mt.a
+
 //Boost system library (debug)
 Boost_SYSTEM_LIBRARY_DEBUG:FILEPATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_system-mt-d.a
 
 //Boost system library (release)
 Boost_SYSTEM_LIBRARY_RELEASE:FILEPATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_system-mt.a
+
+//Boost thread library (debug)
+Boost_THREAD_LIBRARY_DEBUG:FILEPATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_thread-mt-d.a
+
+//Boost thread library (release)
+Boost_THREAD_LIBRARY_RELEASE:FILEPATH=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/lib/libboost_thread-mt.a
 
 //Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
@@ -277,7 +295,7 @@ POLLY_STATUS_PRINT:BOOL=ON
 krauler_BINARY_DIR:STATIC=/home/vagrant/Projects/lab-09-producer-consumer/_builds
 
 //Dependencies for the target
-krauler_LIB_DEPENDS:STATIC=general;OpenSSL::SSL;general;OpenSSL::Crypto;
+krauler_LIB_DEPENDS:STATIC=general;Boost::log;general;Boost::thread;general;Boost::filesystem;general;Boost::system;general;OpenSSL::SSL;general;OpenSSL::Crypto;
 
 //Value Computed by CMake
 krauler_SOURCE_DIR:STATIC=/home/vagrant/Projects/lab-09-producer-consumer
@@ -287,16 +305,28 @@ krauler_SOURCE_DIR:STATIC=/home/vagrant/Projects/lab-09-producer-consumer
 # INTERNAL cache entries
 ########################
 
+//ADVANCED property for variable: Boost_FILESYSTEM_LIBRARY_DEBUG
+Boost_FILESYSTEM_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_FILESYSTEM_LIBRARY_RELEASE
+Boost_FILESYSTEM_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_INCLUDE_DIR
 Boost_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_LIBRARY_DIR_DEBUG
 Boost_LIBRARY_DIR_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_LIBRARY_DIR_RELEASE
 Boost_LIBRARY_DIR_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_LOG_LIBRARY_DEBUG
+Boost_LOG_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_LOG_LIBRARY_RELEASE
+Boost_LOG_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_SYSTEM_LIBRARY_DEBUG
 Boost_SYSTEM_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_SYSTEM_LIBRARY_RELEASE
 Boost_SYSTEM_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_THREAD_LIBRARY_DEBUG
+Boost_THREAD_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_THREAD_LIBRARY_RELEASE
+Boost_THREAD_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
 CMAKE_AR-ADVANCED:INTERNAL=1
 //This is the directory where this CMakeCache.txt was created
@@ -466,7 +496,7 @@ OPENSSL_SSL_LIBRARY-ADVANCED:INTERNAL=1
 //Last used BOOST_ROOT value.
 _BOOST_ROOT_LAST:INTERNAL=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install
 //Components requested for this build tree.
-_Boost_COMPONENTS_SEARCHED:INTERNAL=system
+_Boost_COMPONENTS_SEARCHED:INTERNAL=filesystem;log;system;thread
 //Last used Boost_INCLUDE_DIR value.
 _Boost_INCLUDE_DIR_LAST:INTERNAL=/root/.hunter/_Base/70287b1/fc9dcb2/dffbc08/Install/include
 //Last used Boost_LIBRARY_DIR_DEBUG value.
@@ -481,4 +511,6 @@ _Boost_NO_SYSTEM_PATHS_LAST:INTERNAL=ON
 _Boost_USE_MULTITHREADED_LAST:INTERNAL=TRUE
 //Last used Boost_USE_STATIC_LIBS value.
 _Boost_USE_STATIC_LIBS_LAST:INTERNAL=ON
+//Have symbol clock_gettime
+_hunter_boost_have_clock_gettime:INTERNAL=1
 
