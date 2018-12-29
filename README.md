@@ -1,4 +1,5 @@
-# Лабораторная работа №9
+
+[![Build Status](https://travis-ci.org/Avsyankaa/lab-09-producer-consumer.svg?branch=template)](https://travis-ci.org/Avsyankaa/lab-09-producer-consumer)# Лабораторная работа №9
 
 ## Задание
 
