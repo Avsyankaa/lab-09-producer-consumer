@@ -5,7 +5,7 @@
 #include <krauler.hpp>
 TEST(Krauler, Test1) {
 
-    Krauler k(8, 4, 4, "github.com/Avsyankaa/Tests","file.log");
+    krauler k(8, 4, 4, "github.com/Avsyankaa/Tests","file.log");
     SUCCEED();
 
 }
