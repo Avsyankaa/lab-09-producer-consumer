@@ -9,3 +9,12 @@ TEST(Krauler, Test1) {
     SUCCEED();
 
 }
+
+TEST(Krauler, Test2) {
+
+    krauler k(8, 4, 4, "github.com/Avsyankaa/Tests","file.log");
+    k.make_krauling();
+    SUCCEED();
+
+}
+

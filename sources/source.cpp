@@ -21,6 +21,7 @@
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/log/utility/setup/file.hpp>
 #include <boost/log/trivial.hpp>
+
 #include "sertificate.hpp"
 #include <stdexcept>
 #include <chrono>
@@ -36,6 +37,7 @@ using tcp = net::ip::tcp;
 namespace logging = boost::log;
 void krauler::download(std::string host, std::string target) {
     try {
+        std::unique_lock<std::recursive_mutex> lk(download_mutex);
         net::io_context ioc;
         ssl::context ctx{ssl::context::sslv23_client};
         load_root_certificates(ctx);
@@ -64,10 +66,12 @@ void krauler::download(std::string host, std::string target) {
         e.what();
     }
     notified = true;
+    count_ref--;
     if (count_ref != -1)
         cv.notify_one();
+    if (count_ref == 0)
+       cv.notify_all();
 }
-
 
 void krauler::parse_thread_work( unsigned depth ) {
     std::unique_lock<std::recursive_mutex> lk(download_mutex);
