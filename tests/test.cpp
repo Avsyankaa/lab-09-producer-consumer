@@ -10,11 +10,3 @@ TEST(Krauler, Test1) {
 
 }
 
-TEST(Krauler, Test2) {
-
-    krauler k2(8, 4, 4, "github.com/Avsyankaa/Tests","file.log");
-    k2.make_krauling();
-    SUCCEED();
-
-}
-
