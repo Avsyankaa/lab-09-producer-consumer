@@ -82,7 +82,7 @@ target_include_directories(main
 
 target_link_libraries(tests GTest::main Boost::boost Boost::log Boost::thread Boost::filesystem Boost::system Boost::program_options Beast::Beast OpenSSL::SSL OpenSSL::Crypto krauler)
 target_link_libraries(krauler Boost::boost Boost::log Boost::thread Boost::filesystem Boost::system Boost::program_options Beast::Beast OpenSSL::SSL OpenSSL::Crypto)
-target_link_libraries(main GTest::main Boost::boost Boost::thread Boost::filesystem Boost::system Boost::program_options Beast::Beast OpenSSL::SSL OpenSSL::Crypto krauler)
+target_link_libraries(main GTest::main Boost::boost Boost::log Boost::thread Boost::filesystem Boost::system Boost::program_options Beast::Beast OpenSSL::SSL OpenSSL::Crypto krauler)
 enable_testing()
 add_test(NAME unit_tests COMMAND tests) 
 
